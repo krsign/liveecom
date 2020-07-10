@@ -14,7 +14,7 @@
           <a href="{% url "shop:product_list" %}" class="list-group-item" style="color: black;">All</a>
           
           {% for cat in categories %}
-            <a href="{{ c.get_absolute_url }}" class="list-group-item" style="color: black;">{{cat.name}}</a>
+            <a href="{{ cat.get_absolute_url }}" class="list-group-item" style="color: black;">{{cat.name}}</a>
           {% endfor %}
             
         </div>

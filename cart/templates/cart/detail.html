@@ -2,18 +2,16 @@
 {% load static %}
 
 {% block extrahead %}
-    <style>
-        /* body{
-            background-color: blanchedalmond;
-        } */
-        .container{
-            background-color: #eee;
-        }
-    </style>
+  <style>
+    .container{
+      margin-top: 8%;
+    }
+  </style>
 {% endblock extrahead %}
 
 {% block content %}
 <div class="container">
+    <h2>Items in Cart</h2>
     <table class="table">
       <thead>
         <tr>
@@ -66,13 +64,21 @@
             <th colspan="5" class="text-right"> Total Amount : </th>
             <th>{{cart.get_total_price}}</th>
         </tr>
-       
       </tfoot>
-     
     </table>
+    
+    <hr>
+    <div class="row">
+      <div class="col-6 col-md-6">
+        <a href="#" class="btn btn-outline-warning float-left">Continue Shopping</a>
+      </div>
+  
+      <div class="col-6 col-md-6">
+        <a href="#" class="btn btn-outline-success float-right">Checkout</a>
+      </div>
+    </div>
+
   </div>
-  <div class="col-12 text-right">
-      <a href="#" class="btn btn-outline-success">Checkout</a>
-  </div>
+  
 
 {% endblock %}
