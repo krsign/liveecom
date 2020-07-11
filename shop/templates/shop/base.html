@@ -17,8 +17,8 @@
     <style>
         body {
             margin-top: 70px;
+           
         }
-
         .carousel-item {
             height: 65vh;
             min-height: 300px;
@@ -28,7 +28,6 @@
             -o-background-size: cover;
             background-size: cover;
         }
-
         .portfolio-item {
             margin-bottom: 30px;
         }
@@ -36,42 +35,58 @@
 </head>
 
 <body>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #404040;">
-        <a class="navbar-brand" href="" style="color: white;">Football</a>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #e3f2fd;">
+        <a class="navbar-brand" href="">Football</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" >
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/" style="color: white;">Products<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/" >Products<span class="sr-only">(current)</span></a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" href="#" style="color: white;">About</a>
+                    <a class="nav-link" href="#">About</a>
                 </li>
             </ul>
-            <!-- <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            </form> -->
-            <a href="http://" style="color: white;">
-                <i class="fa fa-shopping-cart" style="font-size: 20px;" aria-hidden="true"></i>
+            {% with total_items=cart|length %} 
+
+            {% if total_items > 0 %}
+                <a class="nav-link " href="{% url "cart:cart_detail" %}">
+                    <button type="button" class="btn btn-outline-dark btn-sm">
+                        <i class="fa fa-shopping-cart"> shopping cart | {{ total_items }}</i>
+                    </button>
+                </a>
+            {% else %}
+            <a class="nav-link disabled" href="">
+                <button type="button" class="btn btn-outline-dark btn-sm">
+                    <i class="fa fa-shopping-cart"> shopping cart | {{ total_items }}</i>
+                </button>
             </a>
-            
-            <!-- <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            </form> -->
-            <!-- <a href="" style="color: black;">Login</a>
-            <a class="nav-link disabled" href=""><button type="button" class="btn btn-outline-secondary">Signup</button></a> -->
+            {% endif %}
+            {% endwith %}
+
+            {% if user.is_authenticated %}
+                <a class="navbar-brand" href="#">
+                    <a href="{% url 'profile' %}">
+                        {% if user.pic %}
+                        <img src="{{user.pic.url}}" width="30" height="30" class="rounded-circle" alt="">
+                        {% else %}
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTqVg_URh9Mvrm3NYaTlCUyiM7r382ohELc1g&usqp=CAU" width="30" height="30"
+                            class="rounded-circle" alt="">
+                        {% endif %}
+                    </a>
+                </a>
+                <a class="nav-link disabled" href="{% url 'logout' %}"><button type="button" class="btn btn-outline-dark btn-sm">Logout</button></a>
+            {% else %}
+                <a href="{% url 'login' %}" class="text-dark">Login</a> 
+                <a class="nav-link disabled" href="{% url 'signup' %}"><button type="button" class="btn btn-outline-dark btn-sm">SignUp</button></a>
+            {% endif %}
         </div>
-
     </nav>
-
-
-
     {% block content %}
     {% endblock %}
 

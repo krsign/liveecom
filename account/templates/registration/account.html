@@ -1,0 +1,73 @@
+{% extends 'shop/base.html' %}
+{% block extra_head %}
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Overpass:wght@300&display=swap');
+  body{
+    background-color: #eee;
+  }
+  .container{
+    font-family: 'Overpass', sans-serif;
+    text-align: justify;
+    padding-top: 5%;
+    
+  }
+  #username{
+    margin-top: 2%;
+   
+  }
+  #email{
+  
+  }
+  #bio{
+    margin-bottom: 4%;
+   
+  }
+
+  @media (max-width: 600px) {
+    .container{
+      padding-top: 5%;
+      padding-left: 5%;
+      padding-right: 5%;
+      text-align: center;
+    }
+    #username{
+      margin-top: 5%;
+      text-align: justify;
+    }
+    #email{
+      text-align: justify;
+    }
+    #bio{
+      margin-top: 6%;
+      padding-top: 6%;
+      text-align: justify;
+    } 
+    .rounded-circle{
+      margin-top: 2%;
+    }
+}
+
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="container">
+      {% if user.pic %}
+      <img src="{{user.pic.url}}" class="rounded-circle" width="250" height="250" alt="">
+      {% else %}
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTqVg_URh9Mvrm3NYaTlCUyiM7r382ohELc1g&usqp=CAU" class="rounded-circle" width="250"
+        height="250" alt="">
+      {% endif %}
+      <h4 id="username">username: {{user.username}}</h4>
+      <hr>
+      <h4 id="email">emai: {{user.email}}</h4>
+      <hr>
+      <h6 id="bio">{{user.bio}}</h6>
+      <a href="{% url 'userupdate'  user.id %}"><button type="button"class="btn btn-outline-dark" id="editprofile">Edit Profile</button></a>
+      <a href="{% url 'password_change' %}"><button type="button"class="btn btn-outline-dark" id="editprofile">Change Password</button></a>
+    </div>
+</div>
+
+{% endblock %}
+
