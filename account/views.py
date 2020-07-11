@@ -9,7 +9,7 @@ class SignUpView(CreateView):
     model = settings.AUTH_USER_MODEL
     form_class = SignUpForm  
     template_name = 'registration/signup.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('/')
     
     
     # for automatic login after signup
