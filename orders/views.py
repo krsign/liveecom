@@ -2,12 +2,18 @@ from django.shortcuts import render
 from .models import OrderItem
 from .forms import OrderCreateForm 
 from cart.cart import Cart
+from django.contrib.auth.decorators import  login_required
 
+
+@login_required(login_url='/account/login/')
 def order_create(request):
     cart = Cart(request)
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
         if form.is_valid():
+            order = form.save(commit=False)
+            user = request.user
+            order.user = user
             order = form.save()
             for item in cart:
                 OrderItem.objects.create(order=order, product=item['product'],price=item['price'], quantity=item['quantity'])

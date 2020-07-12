@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login
+from orders.models import Order, OrderItem
 class SignUpView(CreateView):
     model = settings.AUTH_USER_MODEL
     form_class = SignUpForm  
@@ -22,8 +23,8 @@ class SignUpView(CreateView):
 
 def accountView(request):
     user = request.user
-
-    context = {'user': user}
+    order = OrderItem.objects.select_related('order').filter(order__user_id=user.id)
+    context = {'user': user, 'order':order}
     return render(request, 'registration/account.html', context)
 
 class UserUpdate(UpdateView):

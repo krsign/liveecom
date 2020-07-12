@@ -1,18 +1,77 @@
-from django.shortcuts import render, get_object_or_404 
-from .models import Category, Product
+from django.shortcuts import render, get_object_or_404 , redirect, reverse
+from .models import Category, Product, ReviewModel
 from cart.forms import CartAddProductForm
+from django.views.generic import DetailView, ListView
+from django.views.generic.edit import  FormMixin
+from django.contrib.auth import  get_user_model
 
-def product_list(request, category_slug=None): 
-    category = None
-    categories = Category.objects.all()
-    products = Product.objects.filter(available=True) 
-    if category_slug:
-        category = get_object_or_404(Category, slug=category_slug)
-        products = products.filter(category=category)
-    return render(request,'shop/product/list.html', {'category': category,'categories': categories, 'products': products})
+from .forms import  ReviewForm
 
-def product_detail(request, id, slug): 
-    product = get_object_or_404(Product,id=id, slug=slug, available=True)
-    cart_product_form = CartAddProductForm()
-    return render(request, 'shop/product/detail.html',{'product': product,'cart_product_form': cart_product_form})
+
+class product_list(ListView):
+    model = Product
+    context_object_name = 'products'
+    template_name = 'shop/product/list.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        categories = Category.objects.all()
+        context['categories'] = categories
+        return context
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Product.objects.filter(name__icontains=query)
+        else:
+            return Product.objects.all()
+
+
+    def get(self, request, slug=None):
+        products = Product.objects.all()
+        if slug:
+            cat = Category.objects.get(slug=slug)
+            products = Product.objects.filter(category=cat)
+            return render(request, 'shop/product/list.html', context={'products':products, 'categories':Category.objects.all()})
+        categories = Category.objects.all()
+        context = {'products':products, 'categories':categories}
+        return render(request, 'shop/product/list.html', context)
+
+    
+
+
+class product_detail(FormMixin, DetailView):
+
+    model = Product
+    context_object_name = 'product'
+    template_name = 'shop/product/detail.html'
+    form_class = ReviewForm
+    pk_url_kwarg = 'id'
+
+    def get_success_url(self):
+        return reverse('shop:product_detail', kwargs={'id':self.object.id})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        cart_product_form = CartAddProductForm()
+        context['cart_product_form'] = cart_product_form
+        product = self.get_object()
+        product_review = ReviewModel.objects.filter(product=product)
+        context['product_review'] = product_review
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            product = self.get_object()
+            new_review = form.save(commit=False)
+            new_review.product = product
+            new_review.user = self.request.user
+            new_review.save()
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
 

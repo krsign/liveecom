@@ -52,6 +52,12 @@
                     <a class="nav-link" href="#">About</a>
                 </li>
             </ul>
+
+<!--             
+            <form method="GET" action="" class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" name="q" type="text" value="{{ request.GET.q }}" placeholder="search products" aria-label="Search">
+            </form>
+             -->
             {% with total_items=cart|length %} 
 
             {% if total_items > 0 %}

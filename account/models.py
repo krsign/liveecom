@@ -7,7 +7,7 @@ from django.dispatch import receiver
 class User(AbstractUser):
     email = models.EmailField(unique=True)
     pic = models.ImageField(upload_to='account/', blank=True)
-    bio = models.TextField(blank=True)
+    
 
     REQUIRED_FIELDS = ('email',)
 

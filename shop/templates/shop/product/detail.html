@@ -1,5 +1,6 @@
 {% extends 'shop/base.html' %}
 
+{% load crispy_forms_tags %}
 {% block content %}
     <div class="container">
         <br>
@@ -13,45 +14,45 @@
                 <h4 class="my-3">₹{{product.price}}</h4>
                 <hr>
                 <p>{{product.description}}</p>
-                <hr>
+                
                 <form action="{% url "cart:cart_add" product.id %}" method="post">
                     {{ cart_product_form }}
                     {% csrf_token %}
                     <input type="submit" class="btn btn-outline-dark btn-sm" value="Add to Cart">
                 </form>
-                <hr>
+            
             </div>
         </div>
-
-        <h3 class="my-4">Similar Products</h3>
-
+        
+        <hr>
         <div class="row">
-
-            <div class="col-md-3 col-sm-6 mb-4">
-                <a href="#">
-                    <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-                </a>
+            <div class="col-12">
+                 <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.review|as_crispy_field:"bootstrap" }}
+                    <br>
+                    <input type="submit" class='btn btn-success' value="Leave Review">
+                </form>
             </div>
-
-            <div class="col-md-3 col-sm-6 mb-4">
-                <a href="#">
-                    <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-                </a>
-            </div>
-
-            <div class="col-md-3 col-sm-6 mb-4">
-                <a href="#">
-                    <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-                </a>
-            </div>
-
-            <div class="col-md-3 col-sm-6 mb-4">
-                <a href="#">
-                    <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-                </a>
-            </div>
-
         </div>
+        <br>
+        <div class="row">
+            <div class="col-6">
+                <h2 class="mt-2">Reviews</h2>
+                <hr class="mt-0 mb-4">
+                {% for review in product_review reversed %}
+                <h5>{{review.user}}:
+                    <span>{{review}}</span>
+                </h5>
+                <p>{{review.created}}</p>
+                <hr>
+                {% endfor %}
+            </div>
+        </div>
+      
+        
+    
+
     </div>
 
 {% endblock content %}
