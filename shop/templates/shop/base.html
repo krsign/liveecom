@@ -16,7 +16,7 @@
 
     <style>
         body {
-            margin-top: 70px;
+            margin-top: 65px;
            
         }
         .carousel-item {
@@ -36,7 +36,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #e3f2fd;">
-        <a class="navbar-brand" href="">Football</a>
+        <a class="navbar-brand" href="/">Football</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -45,7 +45,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent" >
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/" >Products<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'shop:product_list' %}" >Products<span class="sr-only">(current)</span></a>
                 </li>
 
                 <li class="nav-item">
@@ -53,11 +53,11 @@
                 </li>
             </ul>
 
-<!--             
-            <form method="GET" action="" class="form-inline my-2 my-lg-0">
+            
+            <!-- <form method="GET" action="" class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="text" name="q" type="text" value="{{ request.GET.q }}" placeholder="search products" aria-label="Search">
-            </form>
-             -->
+            </form> -->
+            
             {% with total_items=cart|length %} 
 
             {% if total_items > 0 %}

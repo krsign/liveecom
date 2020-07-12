@@ -1,12 +1,15 @@
 from django.shortcuts import render, get_object_or_404 , redirect, reverse
 from .models import Category, Product, ReviewModel
 from cart.forms import CartAddProductForm
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.edit import  FormMixin
 from django.contrib.auth import  get_user_model
 
 from .forms import  ReviewForm
 
+
+class HomeView(TemplateView):
+    template_name = 'shop/home.html'
 
 class product_list(ListView):
     model = Product
@@ -19,14 +22,7 @@ class product_list(ListView):
         context['categories'] = categories
         return context
 
-    def get_queryset(self):
-        query = self.request.GET.get('q')
-        if query:
-            return Product.objects.filter(name__icontains=query)
-        else:
-            return Product.objects.all()
-
-
+  
     def get(self, request, slug=None):
         products = Product.objects.all()
         if slug:
@@ -49,7 +45,7 @@ class product_detail(FormMixin, DetailView):
     pk_url_kwarg = 'id'
 
     def get_success_url(self):
-        return reverse('shop:product_detail', kwargs={'id':self.object.id})
+        return reverse('shop:product_detail', kwargs={'id':self.object.id, 'slug':self.object.slug})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
