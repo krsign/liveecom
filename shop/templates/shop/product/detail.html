@@ -27,20 +27,24 @@
         
        <br>
        <br>
+       {% if user.is_authenticated %}
         <div class="row">
             <div class="col-12">
                  <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.review|as_crispy_field:"bootstrap" }}
                     <br>
-                    <input type="submit" class='btn btn-success' value="Leave Review">
+                    <input type="submit" class="btn btn-outline-primary" value="Leave Review">
                 </form>
             </div>
         </div>
-        <br>
+        {% else %}
+            <h3><a href="{% url 'login' %}">Login</a> to write review </h3>
+        {% endif %}
 
-   
+        <br>
         <ul class="list-group">
+        
         {% for review in product_review reversed %}
             <li class="list-group-item">
            
