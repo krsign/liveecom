@@ -20,11 +20,13 @@
                     {% csrf_token %}
                     <input type="submit" class="btn btn-outline-dark btn-sm" value="Add to Cart">
                 </form>
-            
+                <hr>
             </div>
+          
         </div>
         
-        <hr>
+       <br>
+       <br>
         <div class="row">
             <div class="col-12">
                  <form method="POST" enctype="multipart/form-data">
@@ -36,19 +38,25 @@
             </div>
         </div>
         <br>
-        <div class="row">
-            <div class="col-6">
-                <h2 class="mt-2">Reviews</h2>
-                <hr class="mt-0 mb-4">
-                {% for review in product_review reversed %}
-                <h5>{{review.user}}:
-                    <span>{{review}}</span>
-                </h5>
-                <p>{{review.created}}</p>
-                <hr>
-                {% endfor %}
+
+   
+        <ul class="list-group">
+        {% for review in product_review reversed %}
+            <li class="list-group-item">
+           
+            <div>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSDGQO5-8CPA9Hzl5_wLkAf6VtlMw52q7IwRw&usqp=CAU"  width="30" height="30" alt="" style="display: inline" />
+                <h5 style="display: inline"> : {{review.user}}</h5>
             </div>
-        </div>
+            <hr>
+        
+            <p>{{review}}</p>
+            <strong><p>Posted: {{review.created}}</p></strong>
+            </li>
+        {% endfor %}
+        </ul>
+        
+        
       
         
     
