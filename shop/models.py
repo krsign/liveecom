@@ -6,6 +6,7 @@ from django.contrib.auth import  get_user_model
 class Category(models.Model):
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, unique=True)
+    catimage = models.ImageField(upload_to='category/%Y/%m/%d', blank=True)
 
     class Meta:
         ordering = ('name',)

@@ -2,41 +2,57 @@
 
 {% load crispy_forms_tags %}
 
+{% block extrahead %}
+  <style>
+    #order{
+      background-color: beige;
+      margin-top: 5%;
+      padding-left: 5%;
+      padding-top: 8%;
+      padding-right: 5%;
+      margin-bottom: 5%;
+    }
+    #checkout{
+      padding-left: 5%;
+      margin-top: 5%;
+
+    }
+  </style>
+{% endblock extrahead %}
+
 {% block content %}
 
-<div class="container-fluid">
-    <div class="row">
-
-      <div class="col-6">
-        <div class="container">
-          <div class="row justify-content-center">
-              <div class="col-8">
-                  <h1 class="mt-2">Detail</h1>
-                  <hr class="mt-0 mb-4">
-                   <form method="POST" enctype="multipart/form-data">
-                      {% csrf_token %}
-                      {{ form|crispy }}
-                      <input type="submit" class='btn btn-success' value="Checkout">
-                  </form>
+<div class="container">
+  <div class="container-fluid">    
+      <div class="row">
+          <div class="col-sm-5" id="order">
+            <h2 class="mt-2">Order Details</h2>
+            <hr class="mt-0 mb-4">
+            <h3>Your order</h3>
+            <ul>
+              {% for item in cart %}
+              <li>
+                {{ item.quantity }}x {{ item.product.name }}
+                <span>₹{{ item.total_price }}</span> </li>
+              {% endfor %}
+            </ul>
+            <p>Total: ₹{{ cart.get_total_price }}</p>
+          </div>
+  
+          <div class="col-sm-7" id="checkout">
+              <div class="row justify">
+                  <div class="col-8">
+                      <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <input type="submit" class='btn btn-success' value="Checkout">
+                      </form>
+                  </div>
               </div>
           </div>
-        </div>
-
       </div>
-      <div class="col-6">
-        <div class="container">
-          <h3>Your order</h3>
-          <ul>
-            {% for item in cart %}
-            <li>
-              {{ item.quantity }}x {{ item.product.name }}
-              <span>${{ item.total_price }}</span> </li>
-            {% endfor %}
-          </ul>
-          <p>Total: ${{ cart.get_total_price }}</p>
-        </div>
-      </div>
-    </div>
+  </div>
+  
 </div>
 
 {% endblock %}
