@@ -1,8 +1,25 @@
 {% extends "shop/base.html" %}
-{% block title %}
-Thank you
-{% endblock %}
+
+{% block extrahead %}
+    
+<style>
+    .container{
+       
+        text-align: center;
+        margin-top: 15%;
+    }
+</style>
+{% endblock extrahead %}
+    
+
 {% block content %}
-<h1>Thank you</h1>
-<p>Your order has been successfully completed. Your order number is <strong>{{ order.id }}</strong>.</p>
+
+<div class="container">
+    <h1>Thank you</h1>
+    <p>Your order has been successfully completed. Your order number is <strong>{{ order.id }}</strong>.</p>
+    <a href="{% url 'profile' %}"><button type="button" class="btn btn-outline-dark btn-lg btn-block">Go to orders</button></a>
+   
+    
+</div>
+
 {% endblock %}

@@ -13,7 +13,7 @@
                 <hr>
                 <h4 class="my-3">₹{{product.price}}</h4>
                 <hr>
-                <p>{{product.description}}</p>
+                <p style="text-align: justify;">{{product.description}}</p>
                 
                 <form action="{% url "cart:cart_add" product.id %}" method="post">
                     {{ cart_product_form }}
