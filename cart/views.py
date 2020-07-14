@@ -3,6 +3,7 @@ from django.views.decorators.http import require_POST
 from shop.models import Product
 from .cart import Cart
 from .forms import CartAddProductForm
+from django.urls import reverse_lazy
 
 @require_POST
 def cart_add(request, product_id):
@@ -12,7 +13,7 @@ def cart_add(request, product_id):
     if form.is_valid():
         cd = form.cleaned_data 
         cart.add(product=product,quantity=cd['quantity'],override_quantity=cd['override']) 
-    return redirect('shop:product_list')
+    return redirect(reverse_lazy('shop:product_detail',args=[product_id, product.slug]))
 
 @require_POST
 def cart_remove(request, product_id):
